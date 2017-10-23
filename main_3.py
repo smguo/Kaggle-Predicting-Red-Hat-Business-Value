@@ -24,7 +24,7 @@ import copy
 from itertools import product
 proj_dir = 'E:\\Google Drive\\Python\\RedHat\\scripts'
 os.chdir(proj_dir)
-import group_1_date_trick as gdt
+
 
 
 #% impute the categories that only appear once with a general "rare" category
@@ -484,9 +484,6 @@ test_prediction = xgb_no_leak.predict_proba(test[features])[:,1]
 test['outcome'] = test_prediction 
 test_no_leak = pd.merge(test_raw[['group_1','act_days','activity_id']], test[['group_1','act_days','outcome']], on=['group_1','act_days'], how='left')
 
-#%% prediction of the public leak model 
-test_leak_ps = gdt.group1_date_predict()
-test_leak_ps['group_1'] = test_leak_ps['group_1'].str.lstrip('group ').astype(np.int32)
 #%% wieghted averaging of prediction from leak and no-leak models
 test_leak_keep_ind = test_leak['group_1'].isin(group_1)
 test_leak_weight = test_leak_keep_ind.astype('float').as_matrix()*1 
